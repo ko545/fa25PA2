@@ -10,7 +10,7 @@ using namespace std;
 
 struct MinHeap {
     int data[64]; // heap array ?
-    int size; // stores current size of the heap
+    int size{0}; // stores current size of the heap
 
     MinHeap() { size = 0; }
 
@@ -34,9 +34,9 @@ struct MinHeap {
         // TODO: remove and return smallest index
         //       Replace root with last element, then call downheap()
         int smallestIndex = weightArr[0]; // get smallest index
-        weightArr[0] = weightArr[size]; // replace root with last element
-        size--; //reduce size of array
-        downheap(size, weightArr);
+        weightArr[0] = weightArr[size-1]; // replace root with last element
+        downheap(0, weightArr);
+        size--;
         return smallestIndex; // placeholder
     }
 
@@ -44,7 +44,8 @@ struct MinHeap {
         // TODO: swap child upward while smaller than parent
         while (pos > 0) {
             int parent = (pos - 1) / 2;
-            if (weightArr[pos] >= weightArr[parent]) break; // heap property holds
+            if (weightArr[pos] >= weightArr[parent])
+                break; // heap property holds
             swap(weightArr[pos], weightArr[parent]); //bubble up
             pos = parent; // move up the tree
         }
@@ -58,8 +59,7 @@ struct MinHeap {
             int smallest = left;
 
             if (right < size && weightArr[right] < weightArr[left])
-                    smallest = right; // find smaller child
-
+                smallest = right; // find smaller child
             if (weightArr[pos] <= weightArr[smallest])
                 break; // heap property holds
 
